@@ -4,26 +4,22 @@ moment.tz.setDefault('America/Los_Angeles');
 
 const yargs = require('yargs');
 
-let targetTimezone;
+// set default values for the command
+let targetTimezone = 'Asia/Kolkata'; // default value to run program
+let targetFormat = ''; // default format is ISO 8601
+// command set up
 const command = yargs.argv._[0];
 const params = yargs.argv;
-
+// set the timezone and format if provided
+if (params.targetTimezone) {
+  targetTimezone = params.targetTimezone;
+}
+if (params.format) {
+  targetFormat = 'dddd, MMMM Do YYYY, h:mm:ss a';
+}
 if (command === 'timezone') {
-  if (params.targetTimezone && params.format) {
-    console.log(`The time at the ${targetTimezone} timezone is ${moment().tz(targetTimezone).format()}`);
-  }
+  console.log(`The time at the ${targetTimezone} timezone is ${moment().tz(targetTimezone).format(targetFormat)}`);
 } else {
   console.log('Usage: node <script-file> <timezone>');
   process.exit(1);
 }
-
-// let targetTimezone;
-/* if (yargs.argv.length !== 3) {
-  console.log('Usage: node <script-file> <timezone>');
-  process.exit(1);
-} else {
-  targetTimezone = yargs.argv._[2];
-}
-
- console.log(`The time at the ${targetTimezone} timezone is ${moment().tz(targetTimezone).format()}`);
-*/
